@@ -1,4 +1,4 @@
-# 星愿塔罗 tarot_c3
+# 星愿塔罗 esp32-c3-tarot
 
 ESP32-C3 SuperMini + 1.50 寸 240×280 SPI 彩屏（GC9306 / GC9307）做的三张牌塔罗占卜，基于 **ESP-IDF v6.1**。
 解读以财运、好运等积极方向为主，仅供娱乐。
@@ -45,7 +45,8 @@ FPC-1502401（GC9306）或 FPC-1502403（GC9307），开机自动识别。引脚
 
 ```powershell
 . C:\Espressif\tools\Microsoft.v6.1.PowerShell_profile.ps1
-cd <本工程目录>
+git clone https://github.com/tomdiynew/esp32-c3-tarot.git
+cd esp32-c3-tarot
 idf.py set-target esp32c3        # 首次
 idf.py build
 idf.py -p COMx flash monitor
