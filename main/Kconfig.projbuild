@@ -1,0 +1,46 @@
+menu "Tarot"
+    menu "LCD panel"
+        choice LCD_MODEL
+            prompt "Panel model (FPC marking)"
+            default LCD_MODEL_AUTO
+            help
+                Selects the init table and the default color inversion for the panel.
+
+            config LCD_MODEL_AUTO
+                bool "Auto-detect from controller ID (GC9306 -> 1502401, GC9307 -> 1502403)"
+                help
+                    Reads the controller ID at boot and picks the matching panel.
+                    Falls back to FPC-1502401 if the ID can't be read.
+            config LCD_MODEL_FPC_1502401
+                bool "FPC-1502401 (GC9306, verified)"
+            config LCD_MODEL_FPC_1502403
+                bool "FPC-1502403 (GC9307, LX 20220413)"
+                help
+                    Reads back ID 00 93 07 (GC9307). Uses the vendor's GC9307 table
+                    (from the 1.70" 240x280 FPC-1702430), color inversion OFF by default.
+        endchoice
+
+        choice LCD_INVERT
+            prompt "Color inversion"
+            default LCD_INVERT_MODEL
+            help
+                Sends INVON (0x21) or INVOFF (0x20) after the init table.
+                If the picture looks like a photo negative, flip this.
+
+            config LCD_INVERT_MODEL
+                bool "Model default (1502401: on, 1502403: off)"
+            config LCD_INVERT_ON
+                bool "On (0x21)"
+            config LCD_INVERT_OFF
+                bool "Off (0x20)"
+        endchoice
+
+        config LCD_READ_ID
+            bool "Read and log the controller ID at boot"
+            depends on !LCD_MODEL_AUTO
+            default y
+            help
+                Reads 04h/DAh/DBh/DCh at 1 MHz (the GC9306 read clock must be <= 6.6 MHz)
+                before the normal 40 MHz setup. A GC9306 answers 00 93 06.
+    endmenu
+endmenu

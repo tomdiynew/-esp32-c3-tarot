@@ -1,0 +1,4 @@
+# raw RGB565 pixel data / sprite blobs: never convert line endings
+*.rgb565 binary
+*.bin binary
+*.png binary
